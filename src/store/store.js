@@ -3,10 +3,14 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
-        menuItem: {}
+        menuItem: {},
+        currentUserstatus: null,
+        isLogin: false
     },
-    getter: {
-
+    // 用来获取属性的状态
+    getters: {
+        currentUser: state => state.currentUserstatus,
+        isLogin: state => state.isLogin
     },
     mutations: {
         // 数据同步   设置Id
@@ -26,9 +30,33 @@ export const store = new Vuex.Store({
                 }
             });
         },
+        // 设置用户登录显示注册的邮箱号
+        // setcurrentUser(state, data) {
+        //     // console.log(data)
+        //     if (data) {
+        //         state.currentUserstatus = data
+        //         state.isLogin = true
+        //     } else {
+        //         state.currentUserstatus = null
+        //         state.isLogin = false
+        //     }
+        // }
+        // 更改用户的状态信息
+        userStatus(state, user) {
+            if (user) {
+                state.currentUserstatus = user
+                state.isLogin = true
+            } else {
+                state.currentUserstatus = null
+                state.isLogin = false
+            }
+        }
 
     },
     actions: {
-
+        // 应用mutations
+        setUser({ commit }, user) {
+            commit("userStatus", user)
+        }
     }
 })

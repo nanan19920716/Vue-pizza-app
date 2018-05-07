@@ -31,6 +31,17 @@
 <script>
 import axios from 'axios'
   export default{
+    // beforeRouteEnter: (to, from, next) => {
+    //   // this.$store.dispatch("setUser",null)
+    //   next(vm => vm.$store.commit("setcurrentUser",null))
+    // },
+
+    // 控制退出之后的状态
+    // 组件内的守卫
+    beforeRouteEnter: (to, from, next) => {
+      // this.$store.dispatch("setUser",null)
+      next(vm => vm.$store.dispatch("setUser",null))
+    },
     data(){
       return{
         email:'',
@@ -50,11 +61,15 @@ import axios from 'axios'
               let persons=result.filter((el,index) =>{
                 return el.email === this.email && el.password === this.password
               })
-              console.log(persons)
+              // console.log(persons)
               if(result != null && result.length > 0){
+                // this.$store.commit('setcurrentUser',persons[0].email)
+                this.$store.dispatch("setUser",persons[0].email)
                 this.$router.push({name:'homeLink'})
               }else{
                 alert('账户或密码错误')
+                // this.$store.commit('setcurrentUser',null)
+                this.$store.dispatch("setUser",null)
               }
               // var flag = false
               // for(var resKey in result){
